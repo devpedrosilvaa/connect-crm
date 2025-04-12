@@ -1,13 +1,14 @@
 package tech.silva.connectcrm.models;
 
 import jakarta.persistence.*;
+import tech.silva.connectcrm.audit.Audit;
 import tech.silva.connectcrm.enums.Role;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
-public class AppUser {
+public class AppUser extends Audit {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -15,19 +16,17 @@ public class AppUser {
     @Column(unique = true)
     private String email;
     private String password;
-    private LocalDateTime created_at = LocalDateTime.now();
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_SELLER;
 
     public AppUser() {
     }
 
-    public AppUser(Long id, String name, String email, String password, LocalDateTime created_at, Role role) {
+    public AppUser(Long id, String name, String email, String password, Role role) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.created_at = created_at;
         this.role = role;
     }
 
@@ -61,14 +60,6 @@ public class AppUser {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public LocalDateTime getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
     }
 
     public Role getRole() {
