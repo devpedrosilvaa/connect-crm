@@ -8,6 +8,8 @@ import tech.silva.connectcrm.exceptions.UsernameNotFoundException;
 import tech.silva.connectcrm.models.AppUser;
 import tech.silva.connectcrm.repositories.IUserRepository;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class UserService {
@@ -18,6 +20,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    @Transactional(readOnly = true)
     public AppUser findByEmail(String username) {
         return userRepository.findByEmail(username)
                 .orElseThrow(() -> {
@@ -25,6 +28,7 @@ public class UserService {
                 });
     }
 
+    @Transactional(readOnly = true)
     public Role findRoleByEmail(String username) {
         AppUser user = findByEmail(username);
         return user.getRole();
@@ -33,7 +37,11 @@ public class UserService {
     public AppUser saveUser(AppUser user){
         if(userRepository.findByEmail(user.getEmail()).isPresent())
             throw new UniqueUserViolationException(String.format("User with email: %s already registered. Try again!", user.getEmail()));
-
         return userRepository.save(user);
+    }
+
+    @Transactional(readOnly = true)
+    public List<AppUser> listAllUsers(){
+        return userRepository.findAll();
     }
 }

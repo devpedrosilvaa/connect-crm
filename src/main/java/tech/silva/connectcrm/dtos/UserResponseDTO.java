@@ -2,6 +2,9 @@ package tech.silva.connectcrm.dtos;
 import tech.silva.connectcrm.enums.Role;
 import tech.silva.connectcrm.models.AppUser;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public record UserResponseDTO (
          Long id,
          String name,
@@ -15,5 +18,9 @@ public record UserResponseDTO (
             user.getEmail(),
             user.getRole()
         );
+    }
+    public static List<UserResponseDTO> toList(List<AppUser> users) {
+        return users.stream()
+                .map(user -> ToUserDto(user)).collect(Collectors.toList());
     }
 }

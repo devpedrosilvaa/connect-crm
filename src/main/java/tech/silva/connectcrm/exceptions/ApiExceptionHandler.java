@@ -20,7 +20,7 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(UniqueUserViolationException.class)
-    public ResponseEntity<ErrorMessage> usernameUniqueViolationException(UniqueUserViolationException ex, HttpServletRequest request) {
+    public ResponseEntity<ErrorMessage> usernameUniqueViolationException(RuntimeException ex, HttpServletRequest request) {
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -28,7 +28,7 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<ErrorMessage> usernameNotFoundException(UsernameNotFoundException ex, HttpServletRequest request) {
+    public ResponseEntity<ErrorMessage> usernameNotFoundException(RuntimeException ex, HttpServletRequest request) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .contentType(MediaType.APPLICATION_JSON)
