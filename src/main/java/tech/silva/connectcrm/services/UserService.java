@@ -1,5 +1,6 @@
 package tech.silva.connectcrm.services;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.silva.connectcrm.enums.Role;
@@ -24,7 +25,7 @@ public class UserService {
     public AppUser findByEmail(String username) {
         return userRepository.findByEmail(username)
                 .orElseThrow(() -> {
-                    throw new UsernameNotFoundException("User not found");
+                    throw new EntityNotFoundException(String.format("User with Username= %s not found", username));
                 });
     }
 
@@ -43,5 +44,14 @@ public class UserService {
     @Transactional(readOnly = true)
     public List<AppUser> listAllUsers(){
         return userRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public AppUser findById(Long id){
+        return userRepository.findById(id).orElseThrow(
+                () ->  {
+                    throw new EntityNotFoundException(String.format("User with Id= %s not found", id));
+                }
+        );
     }
 }

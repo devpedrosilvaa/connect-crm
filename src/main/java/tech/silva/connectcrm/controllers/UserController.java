@@ -30,6 +30,15 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<UserResponseDTO>> listAllUser(){
         List<AppUser> users = userService.listAllUsers();
-        return ResponseEntity.status(HttpStatus.CREATED).body(UserResponseDTO.toList(users));
+        if (!users.isEmpty())
+            return ResponseEntity.ok().body(UserResponseDTO.toList(users));
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable("id") Long id){
+        AppUser user = userService.findById(id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(UserResponseDTO.ToUserDto(user));
     }
 }
