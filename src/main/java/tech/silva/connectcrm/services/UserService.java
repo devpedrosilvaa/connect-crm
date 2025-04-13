@@ -66,4 +66,14 @@ public class UserService {
         savedUser.setPassword(user.getPassword());
         return userRepository.save(savedUser);
     }
+
+    @Transactional
+    public void deleteUser(Long id){
+        AppUser user = userRepository.findById(id).orElseThrow(
+                () ->  {
+                    throw new EntityNotFoundException(String.format("User with Id= %s not found", id));
+                }
+        );
+        userRepository.delete(user);
+    }
 }

@@ -48,4 +48,10 @@ public class UserController {
         AppUser user = userService.updateUser(UserUpdateDto.ToUser(userDto));
         return ResponseEntity.ok().body(UserResponseDTO.ToUserDto(user));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> updateUser(@PathVariable("id") Long id){
+        userService.deleteUser(id);
+        return ResponseEntity.ok().build();
+    }
 }
