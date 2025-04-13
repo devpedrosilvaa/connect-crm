@@ -12,6 +12,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import tech.silva.connectcrm.jwt.JwtAuthorizationFilter;
 
 @EnableMethodSecurity
 @EnableWebSecurity
@@ -32,7 +34,15 @@ public class SpringSecurityConfig {
                 .sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
+                .addFilterBefore(
+                        jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class
+                )
                 .build();
+    }
+
+    @Bean
+    public JwtAuthorizationFilter jwtAuthorizationFilter() {
+        return new JwtAuthorizationFilter();
     }
 
     @Bean
