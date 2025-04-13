@@ -29,19 +29,17 @@ public class AppUser {
     private Role role = Role.ROLE_SELLER;
 
     @CreatedDate
-    @Column(updatable = false, nullable = false)
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(nullable = false)
     private LocalDateTime modifiedAt;
 
     @CreatedBy
-    @Column(updatable = false, nullable = false)
+    @Column(updatable = false)
     private String createdBy;
 
     @LastModifiedBy
-    @Column(nullable = false)
     private String modifiedBy;
 
     public AppUser() {

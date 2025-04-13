@@ -3,6 +3,7 @@ package tech.silva.connectcrm.dtos.lead;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import tech.silva.connectcrm.models.AppUser;
 import tech.silva.connectcrm.models.Lead;
 
 public record LeadCreateDTO (
@@ -23,7 +24,7 @@ public record LeadCreateDTO (
                 leadDTO.email,
                 leadDTO.phone,
                 leadDTO.origin,
-                leadDTO.userId
+                new AppUser(leadDTO.userId(), null, null)
         );
     }
 }
