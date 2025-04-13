@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.silva.connectcrm.dtos.UserCreateDTO;
 import tech.silva.connectcrm.dtos.UserResponseDTO;
+import tech.silva.connectcrm.dtos.UserUpdateDto;
 import tech.silva.connectcrm.models.AppUser;
 import tech.silva.connectcrm.services.UserService;
 
@@ -40,5 +41,11 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable("id") Long id){
         AppUser user = userService.findById(id);
         return ResponseEntity.status(HttpStatus.CREATED).body(UserResponseDTO.ToUserDto(user));
+    }
+
+    @PutMapping
+    public ResponseEntity<UserResponseDTO> updateUser(@RequestBody @Valid UserUpdateDto userDto){
+        AppUser user = userService.updateUser(UserUpdateDto.ToUser(userDto));
+        return ResponseEntity.ok().body(UserResponseDTO.ToUserDto(user));
     }
 }

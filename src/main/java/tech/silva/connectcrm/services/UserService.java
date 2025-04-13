@@ -54,4 +54,16 @@ public class UserService {
                 }
         );
     }
+
+    @Transactional
+    public AppUser updateUser(AppUser user){
+        AppUser savedUser = userRepository.findById(user.getId()).orElseThrow(
+                () ->  {
+                    throw new EntityNotFoundException(String.format("User with Id= %s not found", user.getId()));
+                }
+        );
+        savedUser.setName(user.getName());
+        savedUser.setPassword(user.getPassword());
+        return userRepository.save(savedUser);
+    }
 }
