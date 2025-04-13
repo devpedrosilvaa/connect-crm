@@ -15,9 +15,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import tech.silva.connectcrm.dtos.UserCreateDTO;
-import tech.silva.connectcrm.dtos.UserLoginDTO;
-import tech.silva.connectcrm.dtos.UserResponseDTO;
+import tech.silva.connectcrm.dtos.user.UserCreateDTO;
+import tech.silva.connectcrm.dtos.user.UserLoginDTO;
+import tech.silva.connectcrm.dtos.user.UserResponseDTO;
 import tech.silva.connectcrm.exceptions.ErrorMessage;
 import tech.silva.connectcrm.exceptions.InvalidCredencialException;
 import tech.silva.connectcrm.exceptions.ObjectNotFoundException;

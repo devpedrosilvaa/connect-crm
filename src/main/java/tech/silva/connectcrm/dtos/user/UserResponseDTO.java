@@ -1,4 +1,4 @@
-package tech.silva.connectcrm.dtos;
+package tech.silva.connectcrm.dtos.user;
 import tech.silva.connectcrm.enums.Role;
 import tech.silva.connectcrm.models.AppUser;
 

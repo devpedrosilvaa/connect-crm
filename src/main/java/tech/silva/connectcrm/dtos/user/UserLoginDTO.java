@@ -1,4 +1,4 @@
-package tech.silva.connectcrm.dtos;
+package tech.silva.connectcrm.dtos.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

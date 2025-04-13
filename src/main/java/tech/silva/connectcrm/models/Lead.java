@@ -60,6 +60,14 @@ public class Lead {
         this.user = user;
     }
 
+    public Lead(String name, String email, String phone, String origin, Long userId) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.origin = origin;
+        this.user.setId(userId);
+    }
+
     public Lead() {
     }
 
