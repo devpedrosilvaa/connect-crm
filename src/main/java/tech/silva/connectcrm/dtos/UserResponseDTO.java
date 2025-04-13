@@ -11,7 +11,7 @@ public record UserResponseDTO (
          String email,
          Role role
 ){
-    public static UserResponseDTO ToUserDto(AppUser user){
+    public static UserResponseDTO toUserDto(AppUser user){
         return new UserResponseDTO(
             user.getId(),
             user.getName(),
@@ -21,6 +21,6 @@ public record UserResponseDTO (
     }
     public static List<UserResponseDTO> toList(List<AppUser> users) {
         return users.stream()
-                .map(user -> ToUserDto(user)).collect(Collectors.toList());
+                .map(user -> toUserDto(user)).collect(Collectors.toList());
     }
 }
