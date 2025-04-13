@@ -13,7 +13,7 @@ public record UserCreateDTO(
         @NotBlank @Size(min = 6, max = 8)
         String password
 ) {
-    public static AppUser ToUser(UserCreateDTO userDto){
+    public static AppUser toUser(UserCreateDTO userDto){
         return new AppUser(
                 userDto.name,
                 userDto.email,
