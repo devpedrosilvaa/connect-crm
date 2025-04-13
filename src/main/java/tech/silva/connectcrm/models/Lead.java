@@ -28,7 +28,7 @@ public class Lead {
     private String origin;
 
     @Enumerated(EnumType.STRING)
-    private StatusLead status;
+    private StatusLead status = StatusLead.NEW;
 
     @ManyToOne
     @JoinColumn(name = "userId")
