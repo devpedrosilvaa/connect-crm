@@ -6,27 +6,33 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import tech.silva.connectcrm.enums.Role;
+import tech.silva.connectcrm.enums.StatusLead;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users")
+@Table(name = "leads")
 @EntityListeners(AuditingEntityListener.class)
-public class AppUser {
+public class Lead {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String name;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
-    private String password;
+    private String phone;
+
+    private String origin;
 
     @Enumerated(EnumType.STRING)
-    private Role role = Role.ROLE_SELLER;
+    private StatusLead status;
+
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private AppUser user;
 
     @CreatedDate
     @Column(updatable = false, nullable = false)
@@ -44,27 +50,17 @@ public class AppUser {
     @Column(nullable = false)
     private String modifiedBy;
 
-    public AppUser() {
-    }
-
-    public AppUser(Long id, String name, String email, String password, Role role) {
+    public Lead(Long id, String name, String email, String phone, String origin, StatusLead status, AppUser user) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.password = password;
-        this.role = role;
+        this.phone = phone;
+        this.origin = origin;
+        this.status = status;
+        this.user = user;
     }
 
-    public AppUser(String name, String email, String password) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-    }
-
-    public AppUser(Long id, String name, String password) {
-        this.id = id;
-        this.name = name;
-        this.password = password;
+    public Lead() {
     }
 
     public Long getId() {
@@ -91,20 +87,36 @@ public class AppUser {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public Role getRole() {
-        return role;
+    public String getOrigin() {
+        return origin;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
+    public StatusLead getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusLead status) {
+        this.status = status;
+    }
+
+    public AppUser getUser() {
+        return user;
+    }
+
+    public void setUser(AppUser user) {
+        this.user = user;
     }
 
     public LocalDateTime getCreatedAt() {
