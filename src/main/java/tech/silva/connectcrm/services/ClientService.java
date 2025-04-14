@@ -9,6 +9,8 @@ import tech.silva.connectcrm.models.Client;
 import tech.silva.connectcrm.repositories.IClientRepository;
 import tech.silva.connectcrm.repositories.IUserRepository;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class ClientService {
@@ -34,5 +36,9 @@ public class ClientService {
 
         client.setUser(user);
         return clientRepository.save(client);
+    }
+
+    public List<Client> getAllClient(){
+        return clientRepository.findAll();
     }
 }
