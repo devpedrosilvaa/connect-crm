@@ -73,4 +73,27 @@ public class LeadService {
             throw new EntityNotAvailableForViewException("This lead is not available for viewing by this user");
         return lead;
     }
+
+    public Lead updateLead(Lead lead, Long id) {
+        AppUser user = userRepository.findById(id).orElseThrow(
+                () ->  {
+                    throw new EntityNotFoundException(
+                            String.format("User with Id= %s not found", id));
+                }
+        );
+        Lead leadSaved = leadRepository.findById(lead.getId()).orElseThrow(
+                () ->  {
+                    throw new EntityNotFoundException(
+                            String.format("Lead with Id= %s not found", lead.getId()));
+                }
+        );
+        leadSaved.setName(lead.getName());
+        leadSaved.setEmail(lead.getEmail());
+        leadSaved.setPhone(lead.getPhone());
+        leadSaved.setOrigin(lead.getOrigin());
+
+        if (!leadSaved.getUser().equals(user))
+            throw new EntityNotAvailableForViewException("This lead is not available for updating by this user");
+        return leadRepository.save(leadSaved);
+    }
 }

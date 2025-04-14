@@ -82,8 +82,8 @@ public class ApiExceptionHandler {
     @ExceptionHandler(EntityNotAvailableForViewException.class)
     public ResponseEntity<ErrorMessage> entityNotAvailableForViewException(RuntimeException ex, HttpServletRequest request) {
         return ResponseEntity
-                .status(HttpStatus.CONFLICT)
+                .status(HttpStatus.BAD_REQUEST)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(new ErrorMessage(request, HttpStatus.CONFLICT, ex.getMessage()));
+                .body(new ErrorMessage(request, HttpStatus.BAD_REQUEST, ex.getMessage()));
     }
 }

@@ -71,6 +71,14 @@ public class Lead {
     public Lead() {
     }
 
+    public Lead(Long id, String name, String email, String phone, String origin) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.origin = origin;
+    }
+
     public Long getId() {
         return id;
     }

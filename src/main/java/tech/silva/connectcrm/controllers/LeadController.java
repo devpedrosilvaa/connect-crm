@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import tech.silva.connectcrm.dtos.lead.LeadUpdateDTO;
 import tech.silva.connectcrm.dtos.lead.LeadCreateDTO;
 import tech.silva.connectcrm.dtos.lead.LeadResponseDTO;
 import tech.silva.connectcrm.jwt.JwtUserDetails;
@@ -50,8 +51,16 @@ public class LeadController {
 
     @GetMapping("/{id}")
     public ResponseEntity<LeadResponseDTO> getLeadsById(@PathVariable Long id,
-                                                              @AuthenticationPrincipal JwtUserDetails userDetails){
+                                                          @AuthenticationPrincipal JwtUserDetails userDetails){
         Lead lead = leadService.getLeadById(id, userDetails.getId());
+        return ResponseEntity.ok().body(LeadResponseDTO.toLeadDto(lead));
+    }
+
+    @PutMapping
+    @PreAuthorize("hasRole('SELLER')")
+    public ResponseEntity<LeadResponseDTO> updateLead(@RequestBody @Valid LeadUpdateDTO leadDTO,
+                                                        @AuthenticationPrincipal JwtUserDetails userDetails){
+        Lead lead = leadService.updateLead(LeadUpdateDTO.toLead(leadDTO), userDetails.getId());
         return ResponseEntity.ok().body(LeadResponseDTO.toLeadDto(lead));
     }
 }
