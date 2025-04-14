@@ -9,6 +9,8 @@ import tech.silva.connectcrm.models.Lead;
 import tech.silva.connectcrm.repositories.ILeadRepository;
 import tech.silva.connectcrm.repositories.IUserRepository;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class LeadService {
@@ -35,4 +37,10 @@ public class LeadService {
         lead.setUser(user);
         return leadRepository.save(lead);
     }
+
+    public List<Lead> listAllLeads(){
+        return leadRepository.findAll();
+    }
+
+
 }
