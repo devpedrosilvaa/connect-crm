@@ -39,4 +39,12 @@ public class LeadController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/me")
+    @PreAuthorize("hasRole('SELLER')")
+    public ResponseEntity<List<LeadResponseDTO>> getMyLeads(@AuthenticationPrincipal JwtUserDetails userDetails){
+        List<Lead> leads = leadService.getMyLeads(userDetails.getId());
+        if (!leads.isEmpty())
+            return ResponseEntity.ok().body(LeadResponseDTO.toList(leads));
+        return ResponseEntity.noContent().build();
+    }
 }

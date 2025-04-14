@@ -42,5 +42,13 @@ public class LeadService {
         return leadRepository.findAll();
     }
 
-
+    public List<Lead> getMyLeads(Long id) {
+        AppUser user = userRepository.findById(id).orElseThrow(
+                () ->  {
+                    throw new EntityNotFoundException(
+                            String.format("User with Id= %s not found", id));
+                }
+        );
+        return leadRepository.findAllByUser(user);
+    }
 }
