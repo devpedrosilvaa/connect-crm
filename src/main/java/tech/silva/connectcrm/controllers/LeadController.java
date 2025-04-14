@@ -47,4 +47,11 @@ public class LeadController {
             return ResponseEntity.ok().body(LeadResponseDTO.toList(leads));
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<LeadResponseDTO> getLeadsById(@PathVariable Long id,
+                                                              @AuthenticationPrincipal JwtUserDetails userDetails){
+        Lead lead = leadService.getLeadById(id, userDetails.getId());
+        return ResponseEntity.ok().body(LeadResponseDTO.toLeadDto(lead));
+    }
 }
