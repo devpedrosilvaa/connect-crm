@@ -8,8 +8,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import tech.silva.connectcrm.dtos.client.ClientCreateDTO;
 import tech.silva.connectcrm.dtos.client.ClientResponseDTO;
+import tech.silva.connectcrm.dtos.lead.LeadResponseDTO;
 import tech.silva.connectcrm.jwt.JwtUserDetails;
 import tech.silva.connectcrm.models.Client;
+import tech.silva.connectcrm.models.Lead;
 import tech.silva.connectcrm.services.ClientService;
 
 import java.util.List;
@@ -38,5 +40,14 @@ public class ClientController {
         if(clients.isEmpty())
             return ResponseEntity.noContent().build();
         return ResponseEntity.ok().body(ClientResponseDTO.toList(clients));
+    }
+
+    @GetMapping("/me")
+    @PreAuthorize("hasRole('SELLER')")
+    public ResponseEntity<List<ClientResponseDTO>> getMyClients(@AuthenticationPrincipal JwtUserDetails userDetails) {
+        List<Client> clients = clientService.getMyClients(userDetails.getId());
+        if (!clients.isEmpty())
+            return ResponseEntity.ok().body(ClientResponseDTO.toList(clients));
+        return ResponseEntity.noContent().build();
     }
 }

@@ -41,4 +41,16 @@ public class ClientService {
     public List<Client> getAllClient(){
         return clientRepository.findAll();
     }
+
+
+    public List<Client> getMyClients(Long id) {
+        AppUser user = userRepository.findById(id).orElseThrow(
+                () ->  {
+                    throw new EntityNotFoundException(
+                            String.format("User with Id= %s not found", id));
+                }
+        );
+
+        return clientRepository.findAllByUser(user);
+    }
 }
