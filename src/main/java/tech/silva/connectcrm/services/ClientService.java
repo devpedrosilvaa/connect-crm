@@ -3,6 +3,8 @@ package tech.silva.connectcrm.services;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tech.silva.connectcrm.enums.Role;
+import tech.silva.connectcrm.exceptions.EntityNotAvailableForViewException;
 import tech.silva.connectcrm.exceptions.UniqueUserViolationException;
 import tech.silva.connectcrm.models.AppUser;
 import tech.silva.connectcrm.models.Client;
@@ -52,5 +54,25 @@ public class ClientService {
         );
 
         return clientRepository.findAllByUser(user);
+    }
+
+    public Client getClientById(Long id, Long userId) {
+        AppUser user = userRepository.findById(userId).orElseThrow(
+                () ->  {
+                    throw new EntityNotFoundException(
+                            String.format("User with Id= %s not found", userId));
+                }
+        );
+        Client client = clientRepository.findById(id).orElseThrow(
+                () ->  {
+                    throw new EntityNotFoundException(
+                            String.format("client with Id= %s not found", id));
+                }
+        );
+        if (!user.getRole().equals(Role.ROLE_SELLER))
+            return client;
+        else if (!client.getUser().equals(user))
+            throw new EntityNotAvailableForViewException("This client is not available for viewing by this user");
+        return client;
     }
 }

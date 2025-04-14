@@ -50,4 +50,11 @@ public class ClientController {
             return ResponseEntity.ok().body(ClientResponseDTO.toList(clients));
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ClientResponseDTO> getClientById(@PathVariable Long id,
+                                                        @AuthenticationPrincipal JwtUserDetails userDetails) {
+        Client client = clientService.getClientById(id, userDetails.getId());
+        return ResponseEntity.ok().body(ClientResponseDTO.toClientDto(client));
+    }
 }
