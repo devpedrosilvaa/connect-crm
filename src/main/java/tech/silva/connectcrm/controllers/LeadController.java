@@ -26,8 +26,9 @@ public class LeadController {
     }
 
     @PostMapping
-    public ResponseEntity<LeadResponseDTO> saveLead(@RequestBody @Valid LeadCreateDTO leadDTO){
-        Lead lead = leadService.saveLead(LeadCreateDTO.toLead(leadDTO));
+    public ResponseEntity<LeadResponseDTO> saveLead(@RequestBody @Valid LeadCreateDTO leadDTO,
+                                                        @AuthenticationPrincipal JwtUserDetails userDetails){
+        Lead lead = leadService.saveLead(LeadCreateDTO.toLead(leadDTO), userDetails.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(LeadResponseDTO.toLeadDto(lead));
     }
 
@@ -62,5 +63,13 @@ public class LeadController {
                                                         @AuthenticationPrincipal JwtUserDetails userDetails){
         Lead lead = leadService.updateLead(LeadUpdateDTO.toLead(leadDTO), userDetails.getId());
         return ResponseEntity.ok().body(LeadResponseDTO.toLeadDto(lead));
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('SELLER')")
+    public ResponseEntity<Void> deleteLead(@PathVariable Long id,
+                                            @AuthenticationPrincipal JwtUserDetails userDetails){
+        leadService.deleteLead(id, userDetails.getId());
+        return ResponseEntity.ok().build();
     }
 }

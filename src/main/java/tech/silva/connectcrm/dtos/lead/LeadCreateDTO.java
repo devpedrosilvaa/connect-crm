@@ -14,17 +14,14 @@ public record LeadCreateDTO (
         @NotBlank
         String phone,
         @NotBlank
-        String origin,
-        @NotNull
-        Long userId
+        String origin
 ){
     public static Lead toLead(LeadCreateDTO leadDTO){
         return new Lead(
                 leadDTO.name,
                 leadDTO.email,
                 leadDTO.phone,
-                leadDTO.origin,
-                new AppUser(leadDTO.userId(), null, null)
+                leadDTO.origin
         );
     }
 }

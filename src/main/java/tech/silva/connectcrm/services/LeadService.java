@@ -25,11 +25,11 @@ public class LeadService {
         this.userRepository = userRepository;
     }
 
-    public Lead saveLead(Lead lead){
-        AppUser user = userRepository.findById(lead.getUser().getId()).orElseThrow(
+    public Lead saveLead(Lead lead, Long id){
+        AppUser user = userRepository.findById(id).orElseThrow(
                 () ->  {
                     throw new EntityNotFoundException(
-                            String.format("User with Id= %s not found", lead.getUser().getId()));
+                            String.format("User with Id= %s not found", id));
                 }
         );
         if (leadRepository.findByEmail(lead.getEmail()).isPresent())
@@ -95,5 +95,23 @@ public class LeadService {
         if (!leadSaved.getUser().equals(user))
             throw new EntityNotAvailableForViewException("This lead is not available for updating by this user");
         return leadRepository.save(leadSaved);
+    }
+
+    public void deleteLead(Long id, Long userId) {
+        AppUser user = userRepository.findById(userId).orElseThrow(
+                () ->  {
+                    throw new EntityNotFoundException(
+                            String.format("User with Id= %s not found", userId));
+                }
+        );
+        Lead lead = leadRepository.findById(id).orElseThrow(
+                () ->  {
+                    throw new EntityNotFoundException(
+                            String.format("Lead with Id= %s not found", id));
+                }
+        );
+        if (!lead.getUser().equals(user))
+            throw new EntityNotAvailableForViewException("This lead is not available for deleting by this user");
+        leadRepository.delete(lead);
     }
 }
