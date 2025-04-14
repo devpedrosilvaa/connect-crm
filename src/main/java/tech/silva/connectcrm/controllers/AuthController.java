@@ -31,14 +31,14 @@ import tech.silva.connectcrm.services.UserService;
 @Tag(name = "Authentication", description = "Resource to proceed with API authentication")
 @RestController
 @RequestMapping("/api/v1/auth")
-public class AuthenticationController {
+public class AuthController {
 
     private final JwtUserDetailsService detailsService;
     private final AuthenticationManager authenticationManager;
     private final IUserRepository userRepository;
     private final UserService userService;
 
-    public AuthenticationController(JwtUserDetailsService detailsService, AuthenticationManager authenticationManager, IUserRepository userRepository, UserService userService) {
+    public AuthController(JwtUserDetailsService detailsService, AuthenticationManager authenticationManager, IUserRepository userRepository, UserService userService) {
         this.detailsService = detailsService;
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
