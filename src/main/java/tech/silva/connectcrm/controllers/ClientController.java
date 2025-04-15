@@ -8,6 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import tech.silva.connectcrm.dtos.client.ClientCreateDTO;
 import tech.silva.connectcrm.dtos.client.ClientResponseDTO;
+import tech.silva.connectcrm.dtos.client.ClientUpdateDTO;
 import tech.silva.connectcrm.dtos.lead.LeadResponseDTO;
 import tech.silva.connectcrm.jwt.JwtUserDetails;
 import tech.silva.connectcrm.models.Client;
@@ -57,4 +58,13 @@ public class ClientController {
         Client client = clientService.getClientById(id, userDetails.getId());
         return ResponseEntity.ok().body(ClientResponseDTO.toClientDto(client));
     }
+
+    @PutMapping
+    public ResponseEntity<ClientResponseDTO> updateClient(@RequestBody ClientUpdateDTO clientDTO,
+                                                           @AuthenticationPrincipal JwtUserDetails userDetails) {
+        Client client = clientService.updateClient(ClientUpdateDTO.toClient(clientDTO), userDetails.getId());
+        return ResponseEntity.ok().body(ClientResponseDTO.toClientDto(client));
+    }
+
+
 }

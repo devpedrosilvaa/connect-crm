@@ -75,4 +75,29 @@ public class ClientService {
             throw new EntityNotAvailableForViewException("This client is not available for viewing by this user");
         return client;
     }
+
+    public Client updateClient(Client client, Long id){
+        AppUser user = userRepository.findById(id).orElseThrow(
+                () ->  {
+                    throw new EntityNotFoundException(
+                            String.format("User with Id= %s not found", id));
+                }
+        );
+
+        Client clientSaved = clientRepository.findById(client.getId()).orElseThrow(
+                () ->  {
+                    throw new EntityNotFoundException(
+                            String.format("Client with Id= %s not found", client.getId()));
+                }
+        );
+
+        clientSaved.setName(client.getName());
+        clientSaved.setPhone(client.getPhone());
+        clientSaved.setDocument(client.getDocument());
+        clientSaved.setAddress(client.getAddress());
+
+        if (!clientSaved.getUser().equals(user))
+            throw new EntityNotAvailableForViewException("This client is not available for viewing by this user");
+        return clientRepository.save(clientSaved);
+    }
 }

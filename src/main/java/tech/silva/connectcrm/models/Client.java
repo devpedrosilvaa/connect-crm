@@ -69,6 +69,14 @@ public class Client {
     public Client() {
     }
 
+    public Client(Long id, String name, String phone, String document, String address) {
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.document = document;
+        this.address = address;
+    }
+
     public Long getId() {
         return id;
     }
