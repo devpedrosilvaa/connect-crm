@@ -6,14 +6,12 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import tech.silva.connectcrm.enums.StatusLead;
-
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "leads")
+@Table(name = "clients")
 @EntityListeners(AuditingEntityListener.class)
-public class Lead {
+public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,10 +24,9 @@ public class Lead {
 
     private String phone;
 
-    private String origin;
+    private String document;
 
-    @Enumerated(EnumType.STRING)
-    private StatusLead status = StatusLead.NEW;
+    private String address ;
 
     @ManyToOne
     @JoinColumn(name = "userId")
@@ -51,32 +48,33 @@ public class Lead {
     @Column(nullable = false)
     private String modifiedBy;
 
-    public Lead(Long id, String name, String email, String phone, String origin, StatusLead status, AppUser user) {
+    public Client(Long id, String name, String email, String phone, String document, String address, AppUser user) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.origin = origin;
-        this.status = status;
+        this.document = document;
+        this.address = address;
         this.user = user;
     }
 
-    public Lead(String name, String email, String phone, String origin) {
+    public Client(String name, String email, String phone, String document, String address) {
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.origin = origin;
+        this.document = document;
+        this.address = address;
     }
 
-    public Lead() {
+    public Client() {
     }
 
-    public Lead(Long id, String name, String email, String phone, String origin) {
+    public Client(Long id, String name, String phone, String document, String address) {
         this.id = id;
         this.name = name;
-        this.email = email;
         this.phone = phone;
-        this.origin = origin;
+        this.document = document;
+        this.address = address;
     }
 
     public Long getId() {
@@ -111,20 +109,20 @@ public class Lead {
         this.phone = phone;
     }
 
-    public String getOrigin() {
-        return origin;
+    public String getDocument() {
+        return document;
     }
 
-    public void setOrigin(String origin) {
-        this.origin = origin;
+    public void setDocument(String document) {
+        this.document = document;
     }
 
-    public StatusLead getStatus() {
-        return status;
+    public String getAddress() {
+        return address;
     }
 
-    public void setStatus(StatusLead status) {
-        this.status = status;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public AppUser getUser() {
