@@ -66,5 +66,11 @@ public class ClientController {
         return ResponseEntity.ok().body(ClientResponseDTO.toClientDto(client));
     }
 
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteClient(@PathVariable Long id,
+                                             @AuthenticationPrincipal JwtUserDetails userDetails){
+        clientService.deleteClient(id, userDetails.getId());
+        return ResponseEntity.ok().build();
+    }
 
 }

@@ -40,11 +40,12 @@ public class ClientService {
         return clientRepository.save(client);
     }
 
+    @Transactional(readOnly = true)
     public List<Client> getAllClient(){
         return clientRepository.findAll();
     }
 
-
+    @Transactional(readOnly = true)
     public List<Client> getMyClients(Long id) {
         AppUser user = userRepository.findById(id).orElseThrow(
                 () ->  {
@@ -56,6 +57,7 @@ public class ClientService {
         return clientRepository.findAllByUser(user);
     }
 
+    @Transactional(readOnly = true)
     public Client getClientById(Long id, Long userId) {
         AppUser user = userRepository.findById(userId).orElseThrow(
                 () ->  {
@@ -100,4 +102,25 @@ public class ClientService {
             throw new EntityNotAvailableForViewException("This client is not available for viewing by this user");
         return clientRepository.save(clientSaved);
     }
+
+    public void deleteClient(Long idClient, Long id){
+        AppUser user = userRepository.findById(id).orElseThrow(
+                () ->  {
+                    throw new EntityNotFoundException(
+                            String.format("User with Id= %s not found", id));
+                }
+        );
+
+        Client clientSaved = clientRepository.findById(idClient).orElseThrow(
+                () ->  {
+                    throw new EntityNotFoundException(
+                            String.format("Client with Id= %s not found", idClient));
+                }
+        );
+        if (!clientSaved.getUser().equals(user))
+            throw new EntityNotAvailableForViewException("This client is not available for viewing by this user");
+        clientRepository.delete(clientSaved);
+    }
+
+
 }
